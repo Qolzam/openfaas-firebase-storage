@@ -1,0 +1,14 @@
+provider:
+  name: faas
+  gateway: http://127.0.0.1:8080
+  network: ""
+functions:
+  storage-test:
+      lang: golang-middleware
+      handler: ./storage
+      image: qolzam/storage:v0.2
+      fprocess: ""
+      environment:
+        bucket_name: resume-web-app.appspot.com
+        exec_timeout: "20"
+      
