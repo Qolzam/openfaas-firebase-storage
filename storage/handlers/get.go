@@ -51,8 +51,9 @@ func GetFileHandle() func(http.ResponseWriter, *http.Request, httprouter.Params)
 			// As of Go 1.3, Go does not support status code 308.
 			code = 307
 		}
-
-		http.Redirect(w, r, "http://127.0.0.1:31112/function/storage-test"+downloadURL, code)
+		r.Header.Add("Location", downloadURL)
+		r.Header.Add("Cache-Control", "max-age=90")
+		http.Redirect(w, r, downloadURL, code)
 
 	}
 
