@@ -4,10 +4,13 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/julienschmidt/httprouter"
 	"github.com/red-gold/telar-core/utils"
 )
+
+const cacheTimeout = 90
 
 // GetFileHandle a function invocation
 func GetFileHandle() func(http.ResponseWriter, *http.Request, httprouter.Params) {
@@ -51,8 +54,12 @@ func GetFileHandle() func(http.ResponseWriter, *http.Request, httprouter.Params)
 			// As of Go 1.3, Go does not support status code 308.
 			code = 307
 		}
-		r.Header.Add("Location", downloadURL)
-		r.Header.Add("Cache-Control", "max-age=90")
+
+		cacheSince := time.Now().Format(http.TimeFormat)
+		cacheUntil := time.Now().Add(time.Second * time.Duration(cacheTimeout)).Format(http.TimeFormat)
+		w.Header().Set("Cache-Control", fmt.Sprintf("max-age:%d, public", cacheTimeout))
+		w.Header().Set("Last-Modified", cacheSince)
+		w.Header().Set("Expires", cacheUntil)
 		http.Redirect(w, r, downloadURL, code)
 
 	}

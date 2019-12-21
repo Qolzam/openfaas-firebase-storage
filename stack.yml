@@ -6,7 +6,7 @@ functions:
   storage-test:
       lang: golang-middleware
       handler: ./storage
-      image: qolzam/storage:v0.6
+      image: qolzam/storage:v0.12
       fprocess: ""
       environment:
         bucket_name: resume-web-app.appspot.com

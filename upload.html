@@ -32,7 +32,7 @@
           axios.post('http://127.0.0.1:31112/function/storage-test/my-dir', data, config)
             .then(function (res) {
               output.className = 'container';
-              output.innerHTML = res.data;
+              output.innerHTML = res.data.payload.url;
             })
             .catch(function (err) {
               output.className = 'container text-danger';
