@@ -53,7 +53,7 @@ func GetFileHandle() func(http.ResponseWriter, *http.Request, httprouter.Params)
 		}
 		r.Header.Add("Location", downloadURL)
 		r.Header.Add("Cache-Control", "max-age=90")
-		http.Redirect(w, r, "http://127.0.0.1:31112/function/storage-test"+downloadURL, code)
+		http.Redirect(w, r, downloadURL, code)
 
 	}
 
